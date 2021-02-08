@@ -1,0 +1,7 @@
+include 'aom-webapi'
+
+rootProject.name = 'aom'
+
+rootProject.children.each {
+    it.buildFileName = it.name + '.gradle'
+}

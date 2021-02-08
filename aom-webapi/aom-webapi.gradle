@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+configurations {
+    compile {
+    }
+}
+
+dependencies {
+
+}
+
+test {
+    useJUnitPlatform()
+}
