@@ -6,7 +6,7 @@
     <Properties>
         <Property name="pattern">[%d{yyyy-MM-dd HH:mm:ss}] [%-5p] -> [%c:%L] %m%n</Property>
         <Property name="displayName">api</Property>
-        <Property name="logFilePath">/var/log/tis</Property>
+        <Property name="logFilePath">/var/log/aom</Property>
     </Properties>
     <Appenders>
         <Console name="console" target="SYSTEM_OUT" follow="true">

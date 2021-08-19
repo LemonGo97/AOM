@@ -1,17 +1,17 @@
 db:
   name: aom
   address: 127.0.0.1
-  port: 3306
-  type: mysql
+  port: 5432
+  type: postgresql
   encoding: utf-8
   timezone: UTC
-  driver: com.mysql.cj.jdbc.Driver
-  username: root
+  driver: org.postgresql.Driver
+  username: aom
   password: 123456
 redis:
   address: 127.0.0.1
   port: 6379
-  password: 123456
+  password:
   database: 0
 spring:
   datasource:
