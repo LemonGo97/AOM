@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletRequest;
 import static cn.lemongo97.aom.config.ResponseResultInterceptor.RESPONSE_RESULT_ANN;
 
 
+/**
+ * @author LemonGo97
+ */
 @Slf4j
 @RestControllerAdvice
 public class ResponseResultHandler implements ResponseBodyAdvice<Object> {

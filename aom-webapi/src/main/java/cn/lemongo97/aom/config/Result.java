@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * @author LemonGo97
+ */
 @Data
 @NoArgsConstructor
 public class Result implements Serializable {
