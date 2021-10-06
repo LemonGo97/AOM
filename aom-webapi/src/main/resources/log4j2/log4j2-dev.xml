@@ -65,9 +65,10 @@
 
     </Appenders>
     <Loggers>
-        <Logger name="cn.lemongo97.aom" level="ALL"/>
+        <Logger name="cn.lemongo97.aom" level="DEBUG"/>
         <Logger name="org.springframework.data.convert.CustomConversions" level="ERROR"/>
         <Logger name="io.undertow.websockets.jsr" level="ERROR"/>
+        <Logger name="org.springframework.boot.web.embedded.undertow.UndertowWebServer" level="INFO"/>
         <Logger name="tracer" level="TRACE"/>
         <Root level="WARN">
             <AppenderRef ref="console" />

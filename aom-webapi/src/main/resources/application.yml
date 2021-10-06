@@ -14,6 +14,8 @@ redis:
   password:
   database: 0
 spring:
+  profiles:
+    active: dev
   datasource:
     url: jdbc:${db.type}://${db.address}:${db.port}/${db.name}
     username: ${db.username}
@@ -21,6 +23,7 @@ spring:
     driver-class-name: ${db.driver}
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
+      db-type: postgresql
       initial-size: 5
       min-idle: 5
       max-active: 20
@@ -28,20 +31,20 @@ spring:
       keep-alive: true
       filter:
         stat:
-          enabled: true
-          db-type: ${db.type}
-          log-slow-sql: true
-          slow-sql-millis: 2000
+        enabled: true
+        db-type: ${db.type}
+        log-slow-sql: true
+        slow-sql-millis: 2000
       web-stat-filter:
         enabled: true
         exclusions:
-          - "*.js"
-          - "*.gif"
-          - "*.jpg"
-          - "*.png"
-          - "*.css"
-          - "*.ico"
-          - "/druid/*"
+        - "*.js"
+        - "*.gif"
+        - "*.jpg"
+        - "*.png"
+        - "*.css"
+        - "*.ico"
+        - "/druid/*"
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
@@ -51,6 +54,15 @@ spring:
         allow:
       remove-abandoned: false
       test-while-idle: true
+  jpa:
+    database: postgresql
+    database-platform: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL10Dialect
   cache:
     redis:
       time-to-live: 60s
@@ -72,7 +84,6 @@ spring:
   mvc:
     servlet:
       load-on-startup: 1
-      path: /aom/api
     converters:
       preferred-json-mapper: gson
 server:

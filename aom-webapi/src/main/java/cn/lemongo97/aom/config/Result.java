@@ -34,6 +34,14 @@ public class Result implements Serializable {
         return result;
     }
 
+    public static Result failure(ResultCode resultCode) {
+        Result result = new Result();
+        result.setCode(resultCode.code());
+        result.setMessage(resultCode.message());
+        result.setErrors(null);
+        return result;
+    }
+
     public static Result failure(ResultCode resultCode, Object errors) {
         Result result = new Result();
         result.setCode(resultCode.code());
