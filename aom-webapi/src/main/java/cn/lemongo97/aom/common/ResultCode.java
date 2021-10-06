@@ -1,5 +1,8 @@
 package cn.lemongo97.aom.common;
 
+/**
+ * @author LemonGo97
+ */
 public enum ResultCode {
     /* 成功状态码*/
     SUCCESS(200,"成功"),

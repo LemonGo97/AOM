@@ -8,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
+/**
+ * @author LemonGo97
+ */
 @Component
 public class ResponseResultInterceptor implements HandlerInterceptor {
 

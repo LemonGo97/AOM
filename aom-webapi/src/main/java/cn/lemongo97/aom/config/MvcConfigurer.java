@@ -15,6 +15,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+/**
+ * @author LemonGo97
+ */
 @EnableWebMvc
 @Configuration
 public class MvcConfigurer implements WebMvcConfigurer {
