@@ -17,6 +17,7 @@ public enum ResultCode {
     USER_ACCOUNT_FORBIDDEN(2003,"账户或已被禁用"),
     USER_NOT_EXIST(2004,"用户不存在"),
     USER_HAS_EXISTED(2005,"用户已存在"),
+    USER_TOKEN_EXPIRED(2006, "Token 已过期"),
     /* 其他异常：3001-3999 */
     UNKNOWN_EXCEPTION(3001,"出现了预期之外的异常"),
     PERMISSION_DENIED(4001,"用户没有权限"),
