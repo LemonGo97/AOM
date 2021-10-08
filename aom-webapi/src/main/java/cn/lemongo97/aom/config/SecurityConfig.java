@@ -1,7 +1,9 @@
 package cn.lemongo97.aom.config;
 
 import cn.hutool.core.map.MapUtil;
+import cn.hutool.crypto.digest.MD5;
 import cn.lemongo97.aom.common.ResultCode;
+import cn.lemongo97.aom.exception.TokenExpiredException;
 import cn.lemongo97.aom.model.User;
 import cn.lemongo97.aom.service.UserService;
 import cn.lemongo97.aom.utils.ResponseUtils;
@@ -11,6 +13,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +41,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final static String REDIS_TOKEN_PREFIX = "string:aom-token:";
     private final static String HEADER_TOKEN_NAME = "X-Token";
+    private final static String TOKEN_SECRET_KEY = "sang@123";
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -81,8 +84,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .logout()
+                .logoutUrl("/logout")
                 .addLogoutHandler((request, response, authentication) -> {
-
+                    String token = request.getHeader(HEADER_TOKEN_NAME);
+                    redisTemplate.delete(REDIS_TOKEN_PREFIX + MD5.create().digestHex(token));
                 })
                 .and()
                 .addFilterBefore(new AbstractAuthenticationProcessingFilter("/login", authenticationManager()) {
@@ -101,10 +106,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         String token = Jwts.builder()
                                 .claim("authorities", stringBuffer)
                                 .setSubject(authResult.getName())
-                                .setExpiration(new Date(System.currentTimeMillis() + 10 * 60 * 1000))
-                                .signWith(SignatureAlgorithm.HS512, "sang@123")
+                                .setExpiration(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
+                                .signWith(SignatureAlgorithm.HS512, TOKEN_SECRET_KEY)
                                 .compact();
-                        redisTemplate.opsForValue().setIfAbsent(REDIS_TOKEN_PREFIX + token, token, 30, TimeUnit.MINUTES);
+                        redisTemplate.opsForValue().setIfAbsent(REDIS_TOKEN_PREFIX + MD5.create().digestHex(token), token, 60, TimeUnit.MINUTES);
                         ResponseUtils.writeAndFlush(resp, Result.success(MapUtil
                                 .builder()
                                 .put("user", authResult.getPrincipal())
@@ -137,14 +142,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         try {
                             HttpServletRequest request = (HttpServletRequest) servletRequest;
                             String jwtToken = request.getHeader(HEADER_TOKEN_NAME);
-                            Claims claims = Jwts.parser().setSigningKey("sang@123").parseClaimsJws(jwtToken.replace("Bearer", "")).getBody();
+                            if (StringUtils.isBlank(redisTemplate.opsForValue().get(REDIS_TOKEN_PREFIX + MD5.create().digestHex(jwtToken)))) {
+                                throw new TokenExpiredException();
+                            }
+                            Claims claims = Jwts.parser().setSigningKey(TOKEN_SECRET_KEY).parseClaimsJws(jwtToken.replace("Bearer", "")).getBody();
                             String username = claims.getSubject();
                             List<GrantedAuthority> authorities = AuthorityUtils.commaSeparatedStringToAuthorityList((String) claims.get("authorities"));
                             UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, null, authorities);
                             SecurityContextHolder.getContext().setAuthentication(token);
                             filterChain.doFilter(request, servletResponse);
                         } catch (Exception e) {
-                            if (e instanceof ExpiredJwtException) {
+                            if ((e instanceof ExpiredJwtException) || (e instanceof TokenExpiredException)) {
                                 log.error(ResultCode.USER_TOKEN_EXPIRED.message(), e);
                                 ResponseUtils.writeAndFlush(servletResponse, Result.failure(ResultCode.USER_TOKEN_EXPIRED));
                             } else {
