@@ -18,6 +18,10 @@ public enum ResultCode {
     USER_NOT_EXIST(2004,"用户不存在"),
     USER_HAS_EXISTED(2005,"用户已存在"),
     USER_TOKEN_EXPIRED(2006, "Token 已过期"),
+    USER_ACCOUNT_LOCKED(2007,"账户已被锁定"),
+    USER_PASSWD_EXPIRED(2008,"密码过期，请联系管理员!"),
+    USER_ACCOUNT_EXPIRED(2009,"账户过期，请联系管理员!"),
+    USER_ACCOUNT_UNKNOWN_EXCEPTION(2010,"未知的用户登录错误!"),
     /* 其他异常：3001-3999 */
     UNKNOWN_EXCEPTION(3001,"出现了预期之外的异常"),
     PERMISSION_DENIED(4001,"用户没有权限"),
