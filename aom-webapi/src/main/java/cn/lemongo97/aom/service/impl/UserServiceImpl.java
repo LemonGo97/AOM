@@ -1,7 +1,8 @@
-package cn.lemongo97.aom.service;
+package cn.lemongo97.aom.service.impl;
 
 import cn.lemongo97.aom.model.User;
 import cn.lemongo97.aom.repository.UserDao;
+import cn.lemongo97.aom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

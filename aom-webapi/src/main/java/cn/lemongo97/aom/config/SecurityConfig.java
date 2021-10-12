@@ -36,6 +36,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.filter.GenericFilterBean;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
@@ -138,7 +139,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 }, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new GenericFilterBean() {
                     @Override
-                    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException {
+                    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
                         try {
                             HttpServletRequest request = (HttpServletRequest) servletRequest;
                             String jwtToken = request.getHeader(HEADER_TOKEN_NAME);
@@ -156,8 +157,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 log.error(ResultCode.USER_TOKEN_EXPIRED.message(), e);
                                 ResponseUtils.writeAndFlush(servletResponse, Result.failure(ResultCode.USER_TOKEN_EXPIRED));
                             } else {
-                                log.error(ResultCode.UNKNOWN_EXCEPTION.message(), e);
-                                ResponseUtils.writeAndFlush(servletResponse, Result.failure(ResultCode.UNKNOWN_EXCEPTION, "Token 验证失败！", Arrays.toString(e.getStackTrace())));
+                                throw e;
                             }
                         }
                     }
