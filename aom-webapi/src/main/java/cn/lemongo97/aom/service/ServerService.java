@@ -5,6 +5,8 @@ import cn.lemongo97.aom.model.server.ServerDTO;
 import cn.lemongo97.aom.model.server.ServerPO;
 import org.springframework.data.domain.Page;
 
+import java.util.Optional;
+
 /**
  * @author lemongo97
  */
@@ -14,4 +16,8 @@ public interface ServerService {
     void save(ServerPO server);
 
     void remove(String uuid);
+
+    Optional<ServerPO> findById(String uuid);
+
+    void modify(ServerPO server);
 }
