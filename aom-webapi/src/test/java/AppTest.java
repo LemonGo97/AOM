@@ -1,7 +1,8 @@
+import cn.hutool.core.date.DateUtil;
 import cn.lemongo97.aom.Application;
 import cn.lemongo97.aom.model.Role;
 import cn.lemongo97.aom.model.User;
-import cn.lemongo97.aom.repository.UserDao;
+import cn.lemongo97.aom.repository.UserJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.Test;
@@ -12,7 +13,7 @@ import java.util.List;
 @SpringBootTest(classes = Application.class)
 public class AppTest {
     @Autowired
-    private UserDao userDao;
+    private UserJpaRepository userJpaRepository;
     @Test
     void contextLoads(){
         User u1 = new User();
@@ -28,7 +29,7 @@ public class AppTest {
         r1.setNameZh("管理员");
         rs1.add(r1);
         u1.setRoles(rs1);
-        userDao.save(u1);
+        userJpaRepository.save(u1);
         User u2 = new User();
         u2.setUsername("lipu");
         u2.setPassword("123456");
@@ -42,6 +43,10 @@ public class AppTest {
         r2.setNameZh("普通用户");
         rs2.add(r2);
         u2.setRoles(rs2);
-        userDao.save(u2);
+        userJpaRepository.save(u2);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(DateUtil.dateSecond());
     }
 }

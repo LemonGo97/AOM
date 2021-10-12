@@ -26,6 +26,10 @@ public class ServerPO extends BaseServerPO {
 
     private String charset;
 
+    private String username;
+
+    private String password;
+
     private Boolean sshEnable;
 
     private Integer sshPort;
@@ -33,10 +37,6 @@ public class ServerPO extends BaseServerPO {
     private Boolean telnetEnable;
 
     private Integer telnetPort;
-
-    @ManyToOne
-    @JoinColumn(name="t_server_user_uuid")
-    private ServerUserPO user;
 
     public String getUuid() {
         return uuid;
@@ -86,6 +86,22 @@ public class ServerPO extends BaseServerPO {
         this.charset = charset;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Boolean getSshEnable() {
         return sshEnable;
     }
@@ -118,26 +134,18 @@ public class ServerPO extends BaseServerPO {
         this.telnetPort = telnetPort;
     }
 
-    public ServerUserPO getUser() {
-        return user;
-    }
-
-    public void setUser(ServerUserPO user) {
-        this.user = user;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         ServerPO serverPO = (ServerPO) o;
-        return Objects.equals(uuid, serverPO.uuid) && Objects.equals(name, serverPO.name) && Objects.equals(ipAddress, serverPO.ipAddress) && Objects.equals(systemType, serverPO.systemType) && Objects.equals(platform, serverPO.platform) && Objects.equals(charset, serverPO.charset) && Objects.equals(sshEnable, serverPO.sshEnable) && Objects.equals(sshPort, serverPO.sshPort) && Objects.equals(telnetEnable, serverPO.telnetEnable) && Objects.equals(telnetPort, serverPO.telnetPort) && Objects.equals(user, serverPO.user);
+        return Objects.equals(uuid, serverPO.uuid) && Objects.equals(name, serverPO.name) && Objects.equals(ipAddress, serverPO.ipAddress) && Objects.equals(systemType, serverPO.systemType) && Objects.equals(platform, serverPO.platform) && Objects.equals(charset, serverPO.charset) && Objects.equals(username, serverPO.username) && Objects.equals(password, serverPO.password) && Objects.equals(sshEnable, serverPO.sshEnable) && Objects.equals(sshPort, serverPO.sshPort) && Objects.equals(telnetEnable, serverPO.telnetEnable) && Objects.equals(telnetPort, serverPO.telnetPort);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), uuid, name, ipAddress, systemType, platform, charset, sshEnable, sshPort, telnetEnable, telnetPort, user);
+        return Objects.hash(super.hashCode(), uuid, name, ipAddress, systemType, platform, charset, username, password, sshEnable, sshPort, telnetEnable, telnetPort);
     }
 
     @Override
@@ -152,11 +160,12 @@ public class ServerPO extends BaseServerPO {
                 ", systemType='" + systemType + '\'' +
                 ", platform='" + platform + '\'' +
                 ", charset='" + charset + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
                 ", sshEnable=" + sshEnable +
                 ", sshPort=" + sshPort +
                 ", telnetEnable=" + telnetEnable +
                 ", telnetPort=" + telnetPort +
-                ", user=" + user +
                 '}';
     }
 }

@@ -2,15 +2,23 @@ package cn.lemongo97.aom.model.server;
 
 import cn.lemongo97.aom.model.User;
 
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MappedSuperclass;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  * @author lemongo97
  */
+@MappedSuperclass
 public abstract class BaseServerPO {
     protected Date createTime;
     protected Date updateTime;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name="operator_id")
     protected User operator;
 
     public Date getCreateTime() {

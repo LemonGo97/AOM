@@ -12,4 +12,6 @@ public interface ServerService {
     Page<ServerPO> listServers(ServerDTO server, PageInfo pageInfo);
 
     void save(ServerPO server);
+
+    void remove(String uuid);
 }

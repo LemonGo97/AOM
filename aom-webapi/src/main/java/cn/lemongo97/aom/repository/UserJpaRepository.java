@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * @author lemongo97
  */
-public interface UserDao extends JpaRepository<User,Long> {
+public interface UserJpaRepository extends JpaRepository<User,Long> {
     /**
      * 通过用户名查找用户
      * @param username
