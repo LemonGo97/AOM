@@ -1,6 +1,7 @@
 package cn.lemongo97.aom.controller;
 
 import cn.lemongo97.aom.common.PageInfo;
+import cn.lemongo97.aom.common.SystemType;
 import cn.lemongo97.aom.config.ResponseResult;
 import cn.lemongo97.aom.model.server.ServerDTO;
 import cn.lemongo97.aom.model.server.ServerPO;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -24,6 +27,11 @@ public class ServerController {
     @GetMapping("/servers")
     public Page<ServerPO> listServers(ServerDTO server, PageInfo pageInfo){
         return serverService.listServers(server, pageInfo);
+    }
+
+    @GetMapping("/server/system-type")
+    public Collection<Map<Object, Object>> listSystemType(){
+        return serverService.listSystemType();
     }
 
     @PostMapping("/server")

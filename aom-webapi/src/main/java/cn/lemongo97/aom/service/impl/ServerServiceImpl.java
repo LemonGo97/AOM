@@ -2,6 +2,7 @@ package cn.lemongo97.aom.service.impl;
 
 import cn.hutool.core.date.DateUtil;
 import cn.lemongo97.aom.common.PageInfo;
+import cn.lemongo97.aom.common.SystemType;
 import cn.lemongo97.aom.model.User;
 import cn.lemongo97.aom.model.server.BaseServerPO;
 import cn.lemongo97.aom.model.server.ServerDTO;
@@ -13,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -48,6 +51,11 @@ public class ServerServiceImpl implements ServerService {
     public void modify(ServerPO server) {
         takeOperateMessage(server,false);
         serverJpaRepository.save(server);
+    }
+
+    @Override
+    public Collection<Map<Object, Object>> listSystemType() {
+        return SystemType.getAllSystemType();
     }
 
     @Override

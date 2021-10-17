@@ -1,5 +1,6 @@
 package cn.lemongo97.aom.model.server;
 
+import cn.lemongo97.aom.common.SystemType;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -10,7 +11,7 @@ import java.util.Objects;
  */
 @Table(name = "t_server")
 @Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "uuid")
+@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
 public class ServerPO extends BaseServerPO {
     @Id
     @GeneratedValue(generator = "jpa-uuid")
@@ -20,7 +21,7 @@ public class ServerPO extends BaseServerPO {
 
     private String ipAddress;
 
-    private String systemType;
+    private SystemType systemType;
 
     private String platform;
 
@@ -62,11 +63,11 @@ public class ServerPO extends BaseServerPO {
         this.ipAddress = ipAddress;
     }
 
-    public String getSystemType() {
+    public SystemType getSystemType() {
         return systemType;
     }
 
-    public void setSystemType(String systemType) {
+    public void setSystemType(SystemType systemType) {
         this.systemType = systemType;
     }
 
@@ -136,9 +137,15 @@ public class ServerPO extends BaseServerPO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        if (!super.equals(o)) {
+            return false;
+        }
         ServerPO serverPO = (ServerPO) o;
         return Objects.equals(uuid, serverPO.uuid) && Objects.equals(name, serverPO.name) && Objects.equals(ipAddress, serverPO.ipAddress) && Objects.equals(systemType, serverPO.systemType) && Objects.equals(platform, serverPO.platform) && Objects.equals(charset, serverPO.charset) && Objects.equals(username, serverPO.username) && Objects.equals(password, serverPO.password) && Objects.equals(sshEnable, serverPO.sshEnable) && Objects.equals(sshPort, serverPO.sshPort) && Objects.equals(telnetEnable, serverPO.telnetEnable) && Objects.equals(telnetPort, serverPO.telnetPort);
     }
