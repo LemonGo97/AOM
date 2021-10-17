@@ -42,7 +42,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -82,6 +81,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/t_admin").hasRole("admin")
                 .antMatchers("/t_user").hasRole("user")
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/logout").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .logout()
@@ -90,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     String token = request.getHeader(HEADER_TOKEN_NAME);
                     redisTemplate.delete(REDIS_TOKEN_PREFIX + MD5.create().digestHex(token));
                 })
+                .logoutSuccessHandler((request, response, authentication) -> ResponseUtils.writeAndFlush(response, Result.success("注销成功！")))
                 .and()
                 .addFilterBefore(new AbstractAuthenticationProcessingFilter("/login", authenticationManager()) {
                     @Override

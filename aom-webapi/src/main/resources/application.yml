@@ -63,10 +63,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
-  cache:
-    redis:
-      time-to-live: 60s
-    type: redis
   redis:
     host: ${redis.address}
     port: ${redis.port}
