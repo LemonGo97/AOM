@@ -21,7 +21,6 @@ subprojects {
         maven { url 'https://maven.aliyun.com/repository/spring-plugin' }
         maven { url 'https://maven.aliyun.com/repository/grails-core' }
         maven { url 'https://maven.aliyun.com/repository/apache-snapshots' }
-        maven { url 'http://192.168.1.80/repository/maven-public/' }
         mavenCentral()
     }
 }
