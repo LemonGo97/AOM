@@ -1,26 +1,11 @@
-db:
-  name: aom
-  address: devServer
-  port: 3306
-  type: mysql
-  encoding: utf-8
-  timezone: UTC
-  driver: org.mariadb.jdbc.Driver
-  username: root
-  password: 123456
-redis:
-  address: devServer
-  port: 6379
-  password:
-  database: 0
 spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:${db.type}://${db.address}:${db.port}/${db.name}
-    username: ${db.username}
-    password: ${db.password}
-    driver-class-name: ${db.driver}
+    url: jdbc:mysql://192.168.25.128:3306/aom
+    username: root
+    password: 123456
+    driver-class-name: org.mariadb.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       db-type: mysql
@@ -64,16 +49,16 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MariaDB103Dialect
   redis:
-    host: ${redis.address}
-    port: ${redis.port}
-    password: ${redis.password}
+    host: devServer
+    port: 6379
+    password:
     lettuce:
       pool:
         max-active: 8
         max-wait: -1
         max-idle: 8
         min-idle: 0
-    database: ${redis.database}
+    database: 0
   output:
     ansi:
       enabled: always
