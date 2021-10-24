@@ -1,12 +1,14 @@
 package cn.lemongo97.aom.model.application;
 
 import cn.lemongo97.aom.common.Platform;
+import cn.lemongo97.aom.common.SystemType;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -22,11 +24,14 @@ public class ApplicationPO {
     private String name;
     private String packageName;
     private String version;
-    private String systemType;
+    private SystemType systemType;
     private Platform platform;
-    private String updateTime;
+    private Date updateTime;
     private String changeLog;
+    private String changeLogUrl;
+    private String downloadUrl;
     private String filePath;
+    private Integer fileSize;
 
     public String getUuid() {
         return uuid;
@@ -60,11 +65,11 @@ public class ApplicationPO {
         this.version = version;
     }
 
-    public String getSystemType() {
+    public SystemType getSystemType() {
         return systemType;
     }
 
-    public void setSystemType(String systemType) {
+    public void setSystemType(SystemType systemType) {
         this.systemType = systemType;
     }
 
@@ -76,11 +81,11 @@ public class ApplicationPO {
         this.platform = platform;
     }
 
-    public String getUpdateTime() {
+    public Date getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
+    public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
 
@@ -100,17 +105,43 @@ public class ApplicationPO {
         this.filePath = filePath;
     }
 
+    public String getChangeLogUrl() {
+        return changeLogUrl;
+    }
+
+    public void setChangeLogUrl(String changeLogUrl) {
+        this.changeLogUrl = changeLogUrl;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
+    }
+
+
+    public Integer getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(Integer fileSize) {
+        this.fileSize = fileSize;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ApplicationPO that = (ApplicationPO) o;
-        return Objects.equals(uuid, that.uuid) && Objects.equals(name, that.name) && Objects.equals(packageName, that.packageName) && Objects.equals(version, that.version) && Objects.equals(systemType, that.systemType) && platform == that.platform && Objects.equals(updateTime, that.updateTime) && Objects.equals(changeLog, that.changeLog) && Objects.equals(filePath, that.filePath);
+        return Objects.equals(uuid, that.uuid) && Objects.equals(name, that.name) && Objects.equals(packageName, that.packageName) && Objects.equals(version, that.version) && systemType == that.systemType && platform == that.platform && Objects.equals(updateTime, that.updateTime) && Objects.equals(changeLog, that.changeLog) && Objects.equals(changeLogUrl, that.changeLogUrl) && Objects.equals(downloadUrl, that.downloadUrl) && Objects.equals(filePath, that.filePath) && Objects.equals(fileSize, that.fileSize);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(uuid, name, packageName, version, systemType, platform, updateTime, changeLog, filePath);
+        return Objects.hash(uuid, name, packageName, version, systemType, platform, updateTime, changeLog, changeLogUrl, downloadUrl, filePath, fileSize);
     }
 
     @Override
@@ -120,11 +151,14 @@ public class ApplicationPO {
                 ", name='" + name + '\'' +
                 ", packageName='" + packageName + '\'' +
                 ", version='" + version + '\'' +
-                ", systemType='" + systemType + '\'' +
+                ", systemType=" + systemType +
                 ", platform=" + platform +
                 ", updateTime='" + updateTime + '\'' +
                 ", changeLog='" + changeLog + '\'' +
+                ", changeLogUrl='" + changeLogUrl + '\'' +
+                ", downloadUrl='" + downloadUrl + '\'' +
                 ", filePath='" + filePath + '\'' +
+                ", fileSize='" + fileSize + '\'' +
                 '}';
     }
 }

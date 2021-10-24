@@ -1,21 +1,54 @@
-import cn.hutool.core.date.DateUtil;
 import cn.lemongo97.aom.Application;
+import cn.lemongo97.aom.api.RedisIOAPI;
 import cn.lemongo97.aom.model.Role;
 import cn.lemongo97.aom.model.User;
+import cn.lemongo97.aom.model.application.ApplicationPO;
+import cn.lemongo97.aom.repository.ApplicationJpaRepository;
 import cn.lemongo97.aom.repository.UserJpaRepository;
+import cn.lemongo97.aom.update.IApplicationUpdate;
+import cn.lemongo97.aom.utils.CompressFileHandler;
+import cn.lemongo97.aom.utils.CompressFileUtil;
+import okhttp3.ResponseBody;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipParameters;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.junit.jupiter.api.Test;
+import retrofit2.Call;
+import retrofit2.Response;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @SpringBootTest(classes = Application.class)
 public class AppTest {
     @Autowired
     private UserJpaRepository userJpaRepository;
+
+    @Autowired
+    private IApplicationUpdate applicationUpdate;
+
+    @Autowired
+    private ApplicationJpaRepository applicationJpaRepository;
+
     @Test
-    void contextLoads(){
+    void contextLoads() {
         User u1 = new User();
         u1.setUsername("admin");
         u1.setPassword("123456");
@@ -46,7 +79,45 @@ public class AppTest {
         userJpaRepository.save(u2);
     }
 
-    public static void main(String[] args) {
-        System.out.println(DateUtil.dateSecond());
+    @Test
+    void getRedisReleaseNotes() throws IOException {
+        List<ApplicationPO> redis = applicationJpaRepository.queryByNameOrderByPackageNameDesc("Redis");
+        Pattern compile = Pattern.compile("#define\\s+REDIS_VERSION\\s+\"(.*?)\"");
+        for (ApplicationPO redi : redis) {
+            String packageName = redi.getPackageName();
+            Call<ResponseBody> download = RedisIOAPI.service.download(packageName);
+            Response<ResponseBody> execute = download.execute();
+            CompressFileUtil.decompressTgz(execute.body().byteStream(), (filePath, fileName, inputStream) -> {
+                if (Objects.equals("version.h",fileName)){
+                    byte[] bytes = IOUtils.toByteArray(inputStream);
+                    String fileContent = new String(bytes);
+                    Matcher matcher = compile.matcher(fileContent);
+                    if (matcher.find()){
+                        redi.setVersion(matcher.group(1));
+                        System.out.println(redi.getVersion());
+                    }
+                }else if (Objects.equals("00-RELEASENOTES",fileName)){
+                    byte[] bytes = IOUtils.toByteArray(inputStream);
+                    redi.setChangeLog(new String(bytes));
+                }
+            });
+            applicationJpaRepository.save(redi);
+        }
     }
+
+
+    public static void main(String[] args) throws ParseException, IOException {
+        byte[] bytes = FileUtils.readFileToByteArray(new File("C:\\Users\\LemonGo97\\Downloads\\redis-6.0.10.tar.gz"));
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+        CompressFileUtil.decompressTgz(byteArrayInputStream, (filePath, fileName, inputStream) -> {
+            if (Objects.equals("version.h",fileName)){
+                byte[] bytes1 = IOUtils.toByteArray(inputStream);
+                System.out.println(new String(bytes1));
+            }else if (Objects.equals("00-RELEASENOTES",fileName)){
+                byte[] bytes1 = IOUtils.toByteArray(inputStream);
+                System.out.println(bytes1);
+            }
+        });
+    }
+
 }

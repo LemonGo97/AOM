@@ -16,6 +16,10 @@ public enum SystemType {
      */
     WINDOWS("Windows", Platform.WIN_X64, Platform.WIN_X86),
     /**
+     * Linux
+     */
+    LINUX("Linux", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
+    /**
      * Centos
      */
     CENTOS("CentOS", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),

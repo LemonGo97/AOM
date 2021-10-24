@@ -14,34 +14,60 @@ configurations {
 }
 
 dependencies {
+    // SpringBoot
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     implementation 'org.springframework.boot:spring-boot-starter-undertow'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.apache.commons:commons-pool2'
+
+    // jwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-    implementation 'com.alibaba:druid-spring-boot-starter:1.1.18'
-    implementation 'com.google.guava:guava:28.0-jre'
-    implementation 'com.google.code.gson:gson:2.8.6'
+
+    // apache-commons
+    implementation 'org.apache.commons:commons-pool2'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'org.apache.commons:commons-compress:1.21'
+
+    // druid
+    implementation 'com.alibaba:druid-spring-boot-starter:1.2.8'
+
+    // guava gson
+    implementation 'com.google.guava:guava:31.0.1-jre'
+    implementation 'com.google.code.gson:gson:2.8.8'
+
+    // fastjson
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.11.3'
-    implementation 'com.lmax:disruptor:3.4.2'
-    implementation 'org.apache.logging.log4j:log4j-web:2.13.3'
-    implementation 'commons-io:commons-io:2.8.0'
-    implementation 'cn.hutool:hutool-all:5.4.7'
+
+    // log4j2
+    implementation 'org.apache.logging.log4j:log4j-web:2.14.1'
+    implementation 'com.lmax:disruptor:3.4.4'
+
+    // hutool
+    implementation 'cn.hutool:hutool-all:5.7.15'
+
     // netty
     implementation 'io.netty:netty-all:4.1.48.Final'
     implementation 'io.netty:netty-tcnative-boringssl-static:2.0.30.Final'
 
+    // retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+
+    // jdbc
+    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
+
+    // jsoup
+    implementation 'org.jsoup:jsoup:1.14.3'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.4'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    implementation 'org.apache.commons:commons-lang3:3.10'
 }
 
 test {
