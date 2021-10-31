@@ -4,7 +4,6 @@ import cn.lemongo97.aom.mapper.ApplicationMapper;
 import cn.lemongo97.aom.mapper.ApplicationVersionMapper;
 import cn.lemongo97.aom.model.application.ApplicationPO;
 import cn.lemongo97.aom.model.application.ApplicationVersionPO;
-import cn.lemongo97.aom.repository.ApplicationJpaRepository;
 import cn.lemongo97.aom.service.ApplicationService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -18,9 +17,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ApplicationServiceImpl extends ServiceImpl<ApplicationMapper, ApplicationPO> implements ApplicationService {
-
-    @Autowired
-    private ApplicationJpaRepository applicationJpaRepository;
 
     @Autowired
     private ApplicationVersionMapper applicationVersionMapper;

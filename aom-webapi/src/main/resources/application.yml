@@ -72,4 +72,10 @@ server:
 logging:
   config: classpath:log4j2/log4j2-prod.xml
 mybatis:
-  type-aliases-package: cn.lenmongo97.aom.model
+  type-aliases-package: cn.lemongo97.aom.model
+mybatis-plus:
+  type-enums-package: cn.lemongo97.aom.common
+  configuration:
+    default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
+  global-config:
+    banner: false

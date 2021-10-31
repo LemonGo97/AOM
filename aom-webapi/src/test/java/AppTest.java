@@ -1,14 +1,15 @@
 import cn.lemongo97.aom.Application;
 import cn.lemongo97.aom.api.RedisIOAPI;
 import cn.lemongo97.aom.mapper.ApplicationMapper;
+import cn.lemongo97.aom.mapper.ApplicationVersionMapper;
 import cn.lemongo97.aom.model.Role;
 import cn.lemongo97.aom.model.User;
 import cn.lemongo97.aom.model.application.ApplicationPO;
 import cn.lemongo97.aom.model.application.ApplicationVersionPO;
-import cn.lemongo97.aom.repository.ApplicationJpaRepository;
 import cn.lemongo97.aom.repository.UserJpaRepository;
 import cn.lemongo97.aom.update.IApplicationUpdate;
 import cn.lemongo97.aom.utils.CompressFileUtil;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import okhttp3.ResponseBody;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -37,7 +38,7 @@ public class AppTest {
     private IApplicationUpdate applicationUpdate;
 
     @Autowired
-    private ApplicationJpaRepository applicationJpaRepository;
+    private ApplicationVersionMapper applicationVersionMapper;
 
     @Test
     void contextLoads() {
@@ -83,7 +84,7 @@ public class AppTest {
 
     @Test
     void getRedisReleaseNotes() throws IOException {
-        List<ApplicationVersionPO> redis = applicationJpaRepository.queryByNameOrderByPackageNameDesc("Redis");
+        List<ApplicationVersionPO> redis = applicationVersionMapper.selectList(new QueryWrapper<>());
         Pattern compile = Pattern.compile("#define\\s+REDIS_VERSION\\s+\"(.*?)\"");
         for (ApplicationVersionPO redi : redis) {
             String packageName = redi.getPackageName();
@@ -103,7 +104,7 @@ public class AppTest {
 //                    redi.setChangeLog(new String(bytes));
                 }
             });
-            applicationJpaRepository.save(redi);
+            applicationVersionMapper.insert(redi);
         }
     }
 

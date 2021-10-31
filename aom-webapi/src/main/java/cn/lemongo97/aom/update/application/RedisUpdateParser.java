@@ -3,8 +3,8 @@ package cn.lemongo97.aom.update.application;
 import cn.lemongo97.aom.common.Application;
 import cn.lemongo97.aom.common.Platform;
 import cn.lemongo97.aom.common.SystemType;
+import cn.lemongo97.aom.mapper.ApplicationVersionMapper;
 import cn.lemongo97.aom.model.application.ApplicationVersionPO;
-import cn.lemongo97.aom.repository.ApplicationJpaRepository;
 import cn.lemongo97.aom.update.IApplicationUpdate;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 public class RedisUpdateParser implements IApplicationUpdate {
 
     @Autowired
-    private ApplicationJpaRepository applicationJpaRepository;
+    private ApplicationVersionMapper applicationVersionMapper;
 
     private static final String DOWNLOAD_URL = "https://download.redis.io/releases/";
     private static final Pattern PACKAGE_PARSER_REGEX = Pattern.compile("<a\\s*href=\"(\\w+-\\d+(?:\\.\\d+)*.tar.gz)\">(\\w+-\\d+(?:\\.\\d+)*.tar.gz)</a>\\s*(\\d{2}-\\w+-\\d{4}\\s\\d+:\\d+)\\s*(\\d+)");
@@ -51,7 +51,7 @@ public class RedisUpdateParser implements IApplicationUpdate {
                 application.setSystemType(SystemType.LINUX);
                 application.setDownloadUrl(downloadUrl);
                 application.setFileSize(Integer.valueOf(fileSize));
-                applicationJpaRepository.save(application);
+                applicationVersionMapper.insert(application);
             }
         } catch (IOException e) {
             e.printStackTrace();

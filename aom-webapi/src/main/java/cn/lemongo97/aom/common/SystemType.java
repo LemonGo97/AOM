@@ -1,6 +1,7 @@
 package cn.lemongo97.aom.common;
 
 import cn.hutool.core.map.MapUtil;
+import com.baomidou.mybatisplus.annotation.EnumValue;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -14,40 +15,47 @@ public enum SystemType {
     /**
      * Windows
      */
-    WINDOWS("Windows", Platform.WIN_X64, Platform.WIN_X86),
+    WINDOWS(0, "Windows", Platform.WIN_X64, Platform.WIN_X86),
     /**
      * Linux
      */
-    LINUX("Linux", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
+    LINUX(1, "Linux", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
     /**
      * Centos
      */
-    CENTOS("CentOS", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
+    CENTOS(2, "CentOS", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
     /**
      * Ubuntu
      */
-    UBUNTU("Ubuntu", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
+    UBUNTU(3, "Ubuntu", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
     /**
      * Fedora
      */
-    FEDORA("Fedora", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
+    FEDORA(4, "Fedora", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
     /**
      * Rhel
      */
-    RHEL("Rhel", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
+    RHEL(5, "Rhel", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64),
     /**
      * Debian
      */
-    DEBIAN("Debian", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64);
+    DEBIAN(6,"Debian", Platform.LINUX_X32, Platform.LINUX_X64, Platform.LINUX_AARCH32, Platform.LINUX_AARCH64);
 
     private final static List<Map<Object, Object>> SYSTEM_TYPE = new ArrayList<>();
 
+    @EnumValue
+    private final int id;
     private final String name;
     private final Platform[] platform;
 
-    SystemType(String name, Platform... platform) {
+    SystemType(int id, String name, Platform... platform) {
+        this.id = id;
         this.name = name;
         this.platform = platform;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {
