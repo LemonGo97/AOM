@@ -3,7 +3,7 @@ package cn.lemongo97.aom.update.application;
 import cn.lemongo97.aom.common.Application;
 import cn.lemongo97.aom.common.Platform;
 import cn.lemongo97.aom.common.SystemType;
-import cn.lemongo97.aom.model.application.ApplicationPO;
+import cn.lemongo97.aom.model.application.ApplicationVersionPO;
 import cn.lemongo97.aom.repository.ApplicationJpaRepository;
 import cn.lemongo97.aom.update.IApplicationUpdate;
 import org.jsoup.Jsoup;
@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,7 +40,7 @@ public class RedisUpdateParser implements IApplicationUpdate {
                 String fileName = matcher.group(2);
                 String uploadTime = matcher.group(3);
                 String fileSize = matcher.group(4);
-                ApplicationPO application = new ApplicationPO();
+                ApplicationVersionPO application = new ApplicationVersionPO();
                 application.setName(Application.REDIS.getName());
                 try {
                     application.setUpdateTime(DATE_FORMAT.parse(uploadTime));

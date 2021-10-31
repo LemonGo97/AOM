@@ -62,6 +62,13 @@ dependencies {
     // jsoup
     implementation 'org.jsoup:jsoup:1.14.3'
 
+    // fluent-mybatis
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+    implementation 'com.github.atool:fluent-mybatis:1.8.7'
+    implementation 'com.github.atool:fluent-mybatis-processor:1.8.7'
+    annotationProcessor "com.github.atool:fluent-mybatis-processor:1.8.7"
+
+    // lombok
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'

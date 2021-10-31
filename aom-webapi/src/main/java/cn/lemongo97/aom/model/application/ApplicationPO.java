@@ -1,164 +1,33 @@
 package cn.lemongo97.aom.model.application;
 
-import cn.lemongo97.aom.common.Platform;
-import cn.lemongo97.aom.common.SystemType;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.util.Date;
-import java.util.Objects;
+import cn.org.atool.fluent.mybatis.annotation.FluentMybatis;
+import cn.org.atool.fluent.mybatis.annotation.TableField;
+import cn.org.atool.fluent.mybatis.annotation.TableId;
+import cn.org.atool.fluent.mybatis.base.RichEntity;
+import cn.org.atool.fluent.mybatis.metadata.DbType;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 /**
  * @author lemongo97
  */
-@Table(name = "t_application")
-@Entity
-@GenericGenerator(name = "jpa-uuid", strategy = "org.hibernate.id.UUIDGenerator")
-public class ApplicationPO {
-    @Id
-    @GeneratedValue(generator = "jpa-uuid")
+@EqualsAndHashCode(callSuper = true)
+@Data
+@Accessors(chain = true)
+@FluentMybatis(table = "t_application", dbType = DbType.MARIADB)
+public class ApplicationPO extends RichEntity {
+
+    @TableId(value = "uuid", auto = false, seqName = "select uuid() as uuid")
     private String uuid;
+
+    @TableField(value = "name")
     private String name;
-    private String packageName;
-    private String version;
-    private SystemType systemType;
-    private Platform platform;
-    private Date updateTime;
+
+    @TableField(value = "change_log")
     private String changeLog;
+
+    @TableField(value = "change_log_url")
     private String changeLogUrl;
-    private String downloadUrl;
-    private String filePath;
-    private Integer fileSize;
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPackageName() {
-        return packageName;
-    }
-
-    public void setPackageName(String packageName) {
-        this.packageName = packageName;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public SystemType getSystemType() {
-        return systemType;
-    }
-
-    public void setSystemType(SystemType systemType) {
-        this.systemType = systemType;
-    }
-
-    public Platform getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(Platform platform) {
-        this.platform = platform;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public String getChangeLog() {
-        return changeLog;
-    }
-
-    public void setChangeLog(String changeLog) {
-        this.changeLog = changeLog;
-    }
-
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath) {
-        this.filePath = filePath;
-    }
-
-    public String getChangeLogUrl() {
-        return changeLogUrl;
-    }
-
-    public void setChangeLogUrl(String changeLogUrl) {
-        this.changeLogUrl = changeLogUrl;
-    }
-
-    public String getDownloadUrl() {
-        return downloadUrl;
-    }
-
-    public void setDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
-    }
-
-
-    public Integer getFileSize() {
-        return fileSize;
-    }
-
-    public void setFileSize(Integer fileSize) {
-        this.fileSize = fileSize;
-    }
-
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ApplicationPO that = (ApplicationPO) o;
-        return Objects.equals(uuid, that.uuid) && Objects.equals(name, that.name) && Objects.equals(packageName, that.packageName) && Objects.equals(version, that.version) && systemType == that.systemType && platform == that.platform && Objects.equals(updateTime, that.updateTime) && Objects.equals(changeLog, that.changeLog) && Objects.equals(changeLogUrl, that.changeLogUrl) && Objects.equals(downloadUrl, that.downloadUrl) && Objects.equals(filePath, that.filePath) && Objects.equals(fileSize, that.fileSize);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid, name, packageName, version, systemType, platform, updateTime, changeLog, changeLogUrl, downloadUrl, filePath, fileSize);
-    }
-
-    @Override
-    public String toString() {
-        return "ApplicationPO{" +
-                "uuid='" + uuid + '\'' +
-                ", name='" + name + '\'' +
-                ", packageName='" + packageName + '\'' +
-                ", version='" + version + '\'' +
-                ", systemType=" + systemType +
-                ", platform=" + platform +
-                ", updateTime='" + updateTime + '\'' +
-                ", changeLog='" + changeLog + '\'' +
-                ", changeLogUrl='" + changeLogUrl + '\'' +
-                ", downloadUrl='" + downloadUrl + '\'' +
-                ", filePath='" + filePath + '\'' +
-                ", fileSize='" + fileSize + '\'' +
-                '}';
-    }
 }

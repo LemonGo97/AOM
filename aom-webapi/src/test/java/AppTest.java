@@ -3,11 +3,16 @@ import cn.lemongo97.aom.api.RedisIOAPI;
 import cn.lemongo97.aom.model.Role;
 import cn.lemongo97.aom.model.User;
 import cn.lemongo97.aom.model.application.ApplicationPO;
+import cn.lemongo97.aom.model.application.ApplicationVersionPO;
+import cn.lemongo97.aom.model.mapper.ApplicationPOMapper;
+import cn.lemongo97.aom.model.wrapper.ApplicationPOQuery;
 import cn.lemongo97.aom.repository.ApplicationJpaRepository;
 import cn.lemongo97.aom.repository.UserJpaRepository;
 import cn.lemongo97.aom.update.IApplicationUpdate;
-import cn.lemongo97.aom.utils.CompressFileHandler;
 import cn.lemongo97.aom.utils.CompressFileUtil;
+import cn.org.atool.generator.FileGenerator;
+import cn.org.atool.generator.annotation.Table;
+import cn.org.atool.generator.annotation.Tables;
 import okhttp3.ResponseBody;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
@@ -25,13 +30,9 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -79,11 +80,20 @@ public class AppTest {
         userJpaRepository.save(u2);
     }
 
+    @Autowired
+    private ApplicationPOMapper applicationPOMapper;
+
+    @Test
+    void testFluentMybatis() throws IOException {
+        List<ApplicationPO> applications = applicationPOMapper.listObjs(applicationPOMapper.query());
+        System.out.println(applications);
+    }
+
     @Test
     void getRedisReleaseNotes() throws IOException {
-        List<ApplicationPO> redis = applicationJpaRepository.queryByNameOrderByPackageNameDesc("Redis");
+        List<ApplicationVersionPO> redis = applicationJpaRepository.queryByNameOrderByPackageNameDesc("Redis");
         Pattern compile = Pattern.compile("#define\\s+REDIS_VERSION\\s+\"(.*?)\"");
-        for (ApplicationPO redi : redis) {
+        for (ApplicationVersionPO redi : redis) {
             String packageName = redi.getPackageName();
             Call<ResponseBody> download = RedisIOAPI.service.download(packageName);
             Response<ResponseBody> execute = download.execute();
