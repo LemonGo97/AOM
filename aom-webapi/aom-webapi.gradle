@@ -64,9 +64,7 @@ dependencies {
 
     // fluent-mybatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
-    implementation 'com.github.atool:fluent-mybatis:1.8.7'
-    implementation 'com.github.atool:fluent-mybatis-processor:1.8.7'
-    annotationProcessor "com.github.atool:fluent-mybatis-processor:1.8.7"
+    implementation 'com.baomidou:mybatis-plus-boot-starter:3.4.3.4'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'

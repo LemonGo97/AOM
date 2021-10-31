@@ -1,26 +1,15 @@
 import cn.lemongo97.aom.Application;
 import cn.lemongo97.aom.api.RedisIOAPI;
+import cn.lemongo97.aom.mapper.ApplicationMapper;
 import cn.lemongo97.aom.model.Role;
 import cn.lemongo97.aom.model.User;
 import cn.lemongo97.aom.model.application.ApplicationPO;
 import cn.lemongo97.aom.model.application.ApplicationVersionPO;
-import cn.lemongo97.aom.model.mapper.ApplicationPOMapper;
-import cn.lemongo97.aom.model.wrapper.ApplicationPOQuery;
 import cn.lemongo97.aom.repository.ApplicationJpaRepository;
 import cn.lemongo97.aom.repository.UserJpaRepository;
 import cn.lemongo97.aom.update.IApplicationUpdate;
 import cn.lemongo97.aom.utils.CompressFileUtil;
-import cn.org.atool.generator.FileGenerator;
-import cn.org.atool.generator.annotation.Table;
-import cn.org.atool.generator.annotation.Tables;
 import okhttp3.ResponseBody;
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.ArchiveInputStream;
-import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
-import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
-import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import org.apache.commons.compress.compressors.gzip.GzipParameters;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
@@ -29,7 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,13 +71,14 @@ public class AppTest {
         userJpaRepository.save(u2);
     }
 
+
     @Autowired
-    private ApplicationPOMapper applicationPOMapper;
+    ApplicationMapper applicationMapper;
 
     @Test
     void testFluentMybatis() throws IOException {
-        List<ApplicationPO> applications = applicationPOMapper.listObjs(applicationPOMapper.query());
-        System.out.println(applications);
+        List<ApplicationPO> applicationPOList = applicationMapper.selectList(null);
+        System.out.println(applicationPOList);
     }
 
     @Test
@@ -107,8 +99,8 @@ public class AppTest {
                         System.out.println(redi.getVersion());
                     }
                 }else if (Objects.equals("00-RELEASENOTES",fileName)){
-                    byte[] bytes = IOUtils.toByteArray(inputStream);
-                    redi.setChangeLog(new String(bytes));
+//                    byte[] bytes = IOUtils.toByteArray(inputStream);
+//                    redi.setChangeLog(new String(bytes));
                 }
             });
             applicationJpaRepository.save(redi);

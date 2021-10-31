@@ -1,11 +1,11 @@
 package cn.lemongo97.aom.controller;
 
-import cn.lemongo97.aom.common.PageInfo;
 import cn.lemongo97.aom.config.ResponseResult;
 import cn.lemongo97.aom.model.application.ApplicationVersionPO;
 import cn.lemongo97.aom.service.ApplicationService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +19,9 @@ public class ApplicationController {
     @Autowired
     private ApplicationService applicationService;
 
-    @GetMapping("/applications")
-    public Page<ApplicationVersionPO> list(String type, PageInfo pageInfo){
-        return applicationService.list(type,pageInfo);
+    @GetMapping("/applications/version")
+    public IPage<ApplicationVersionPO> listVersion(String type, Page<ApplicationVersionPO> pageInfo){
+        return applicationService.listVersion(type,pageInfo);
     }
 
 }
