@@ -1,5 +1,6 @@
 package cn.lemongo97.aom.service.impl;
 
+import cn.lemongo97.aom.common.Application;
 import cn.lemongo97.aom.mapper.ApplicationMapper;
 import cn.lemongo97.aom.mapper.ApplicationVersionMapper;
 import cn.lemongo97.aom.model.application.ApplicationPO;
@@ -22,7 +23,7 @@ public class ApplicationServiceImpl extends ServiceImpl<ApplicationMapper, Appli
     private ApplicationVersionMapper applicationVersionMapper;
 
     @Override
-    public IPage<ApplicationVersionPO> listVersion(String type, Page<ApplicationVersionPO> page) {
-        return applicationVersionMapper.selectPage(page, new QueryWrapper<ApplicationVersionPO>().eq("name", type));
+    public IPage<ApplicationVersionPO> listVersion(Application type, Page<ApplicationVersionPO> page) {
+        return applicationVersionMapper.selectPage(page, new QueryWrapper<ApplicationVersionPO>().eq("application", type));
     }
 }

@@ -1,8 +1,11 @@
 package cn.lemongo97.aom.controller;
 
+import cn.lemongo97.aom.common.Application;
 import cn.lemongo97.aom.config.ResponseResult;
+import cn.lemongo97.aom.model.application.ApplicationPO;
 import cn.lemongo97.aom.model.application.ApplicationVersionPO;
 import cn.lemongo97.aom.service.ApplicationService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +26,18 @@ public class ApplicationController {
     private ApplicationService applicationService;
 
     @GetMapping("/applications/{type}/info")
-    public String getInfo(@PathVariable(value = "type") String type){
-        // todo 获取应用概述
-        return null;
+    public ApplicationPO getInfo(@PathVariable(value = "type") Application type) {
+        return applicationService.getOne(new QueryWrapper<ApplicationPO>().select("uuid", "name", "description", "download_url", "icon").eq("name", type));
     }
 
     @GetMapping("/applications/{type}/changeLog")
-    public String changeLog(@PathVariable(value = "type") String type){
-        // todo 获取应用更新日志
-        return null;
+    public String changeLog(@PathVariable(value = "type") Application type) {
+        return applicationService.getOne(new QueryWrapper<ApplicationPO>().select("uuid", "name", "change_log").eq("name", type)).getChangeLog();
     }
 
     @GetMapping("/applications/{type}/version")
-    public IPage<ApplicationVersionPO> listVersion(@PathVariable(value = "type") String type, Page<ApplicationVersionPO> pageInfo){
-        return applicationService.listVersion(type,pageInfo);
+    public IPage<ApplicationVersionPO> listVersion(@PathVariable(value = "type") Application type, Page<ApplicationVersionPO> pageInfo) {
+        return applicationService.listVersion(type, pageInfo);
     }
 
 }

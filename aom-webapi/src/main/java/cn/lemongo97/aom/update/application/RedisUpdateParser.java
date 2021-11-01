@@ -41,7 +41,7 @@ public class RedisUpdateParser implements IApplicationUpdate {
                 String uploadTime = matcher.group(3);
                 String fileSize = matcher.group(4);
                 ApplicationVersionPO application = new ApplicationVersionPO();
-                application.setName(Application.REDIS.getName());
+                application.setApplication(Application.REDIS);
                 try {
                     application.setUpdateTime(DATE_FORMAT.parse(uploadTime));
                 } catch (ParseException ignore) {

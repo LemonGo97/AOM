@@ -1,8 +1,21 @@
 package cn.lemongo97.aom.common;
 
-public enum Application {
-    REDIS("Redis");
+import com.baomidou.mybatisplus.annotation.EnumValue;
 
+public enum Application {
+    MYSQL("MySQL"),
+    MONGODB("MongoDB"),
+    POSTGRESQL("PostgreSQL"),
+    CLICKHOUSE("ClickHouse"),
+    REDIS("Redis"),
+    ELASTICSEARCH("Elasticsearch"),
+    ZOOKEEPER("Zookeeper"),
+    KAFKA("Kafka"),
+    ROCKETMQ("RocketMQ"),
+    RABBITMQ("RabbitMQ"),
+    NGINX("Nginx");
+
+    @EnumValue
     private final String name;
 
     Application(String name){
