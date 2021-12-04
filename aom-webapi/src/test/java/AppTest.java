@@ -78,8 +78,8 @@ public class AppTest {
 
     @Test
     void testFluentMybatis() throws IOException {
-        List<ApplicationPO> applicationPOList = applicationMapper.selectList(null);
-        System.out.println(applicationPOList);
+        ApplicationPO build = ApplicationPO.builder().icon("python").name(cn.lemongo97.aom.common.Application.PYTHON).build();
+        applicationMapper.insert(build);
     }
 
     @Test

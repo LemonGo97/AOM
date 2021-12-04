@@ -13,6 +13,9 @@ public enum Application {
     KAFKA("Kafka"),
     ROCKETMQ("RocketMQ"),
     RABBITMQ("RabbitMQ"),
+    NODEJS("NodeJS"),
+    JDK("JDK"),
+    PYTHON("Python"),
     NGINX("Nginx");
 
     @EnumValue

@@ -62,9 +62,12 @@ dependencies {
     // jsoup
     implementation 'org.jsoup:jsoup:1.14.3'
 
-    // fluent-mybatis
+    // mybatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
     implementation 'com.baomidou:mybatis-plus-boot-starter:3.4.3.4'
+
+    // jsch
+    implementation 'com.jcraft:jsch:0.1.55'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
