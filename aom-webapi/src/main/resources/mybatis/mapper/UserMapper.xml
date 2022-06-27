@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lemongo97.aom.mapper.UserMapper">
+    <resultMap id="userDetailMap" type="cn.lemongo97.aom.model.dto.SysUserDTO">
+        <id property="id" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="actualName" column="actual_name"/>
+        <result property="email" column="email"/>
+        <result property="telephone" column="telephone"/>
+        <result property="type" column="type"/>
+        <result property="status" column="status"/>
+        <result property="lastLoginIp" column="last_login_ip"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="locked" column="locked"/>
+        <result property="disabled" column="disabled"/>
+        <association property="role" javaType="cn.lemongo97.aom.model.SysRoleDO">
+            <id property="id" column="role_id"/>
+            <result property="name" column="role_name"/>
+        </association>
+    </resultMap>
+
+    <select id="getPermissionsByUserId" resultType="java.lang.String">
+        SELECT DISTINCT tsm.`permission`
+        FROM t_sys_user_role_mapping tsurm
+                 LEFT JOIN `t_sys_role` tsr ON tsurm.`role_id` = tsr.`id`
+                 LEFT JOIN `t_sys_role_menu_mapping` tsrmm ON tsurm.`role_id` = tsrmm.`role_id`
+                 LEFT JOIN `t_sys_menu` tsm ON tsm.`id` = tsrmm.`menu_id`
+        WHERE tsm.visible = 0 and tsurm.user_id = #{userId}
+    </select>
+
+    <select id="listUsers" resultMap="userDetailMap">
+        SELECT tsu.id,
+        tsu.username,
+        tsu.actual_name,
+        tsu.email,
+        tsu.telephone,
+        tsu.type,
+        tsu.status,
+        tsu.last_login_ip,
+        tsu.last_login_time,
+        tsu.create_time,
+        tsu.update_time,
+        tsu.locked,
+        tsu.disabled,
+        tsr.id as role_id,
+        tsr.name as role_name
+        FROM t_sys_user tsu
+        LEFT JOIN t_sys_user_role_mapping tsurm ON tsu.id = tsurm.user_id
+        LEFT JOIN t_sys_role tsr ON tsr.id = tsurm.role_id
+        <where>
+            <if test="@org.apache.commons.lang3.StringUtils@isNotBlank(user.queryKey)">
+                tsu.username like concat('%',#{user.queryKey} ,'%')
+                or tsu.actual_name like concat('%',#{user.queryKey} ,'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getById" resultMap="userDetailMap">
+        SELECT tsu.id,
+               tsu.username,
+               tsu.actual_name,
+               tsu.email,
+               tsu.telephone,
+               tsu.type,
+               tsu.status,
+               tsu.last_login_ip,
+               tsu.last_login_time,
+               tsu.create_time,
+               tsu.update_time,
+               tsu.locked,
+               tsu.disabled,
+               tsr.id   as role_id,
+               tsr.name as role_name
+        FROM t_sys_user tsu
+                 LEFT JOIN t_sys_user_role_mapping tsurm ON tsu.id = tsurm.user_id
+                 LEFT JOIN t_sys_role tsr ON tsr.id = tsurm.role_id
+        WHERE tsu.id = #{userId}
+        limit 1
+    </select>
+</mapper>

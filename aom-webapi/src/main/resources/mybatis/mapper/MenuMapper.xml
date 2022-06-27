@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.lemongo97.aom.mapper.MenuMapper">
+
+
+    <select id="getById" resultType="cn.lemongo97.aom.model.SysMenuDO">
+        SELECT
+            tsm.`id`,
+            tsm.`menu_name`,
+            tsm.`path`,
+            tsm.`order`,
+            tsm.`parent`
+        FROM
+            t_sys_user_role_mapping tsurm
+                LEFT JOIN `t_sys_role` tsr ON tsurm.`role_id` = tsr.`id`
+                LEFT JOIN `t_sys_role_menu_mapping` tsrmm ON tsurm.`role_id` = tsrmm.`role_id`
+                LEFT JOIN `t_sys_menu` tsm ON tsm.`id` = tsrmm.`menu_id`
+        WHERE
+            tsm.visible = 1
+          AND tsurm.user_id = #{userId}
+    </select>
+</mapper>
