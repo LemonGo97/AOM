@@ -1,28 +1,33 @@
 package cn.lemongo97.aom.service.impl;
 
-import cn.lemongo97.aom.model.User;
-import cn.lemongo97.aom.repository.UserJpaRepository;
+import cn.lemongo97.aom.common.BasePage;
+import cn.lemongo97.aom.common.PageResult;
+import cn.lemongo97.aom.mapper.UserMapper;
+import cn.lemongo97.aom.model.SysUserDO;
+import cn.lemongo97.aom.model.dto.SysUserDTO;
 import cn.lemongo97.aom.service.UserService;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author lemongo97
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, SysUserDO> implements UserService {
 
     @Autowired
-    UserJpaRepository userJpaRepository;
+    private UserMapper userMapper;
+    @Override
+    public SysUserDTO getUserById(Long userId) {
+        return userMapper.getById(userId);
+    }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userJpaRepository.findUserByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("用户不存在");
-        }
-        return user;
+    public PageResult<SysUserDTO> listUsers(SysUserDTO user, BasePage<SysUserDO> page) {
+        List<SysUserDTO> records = userMapper.listUsers(page, user);
+        return PageResult.<SysUserDTO>builder().list(records).total(page.getTotal()).pageSize(page.getPageSize()).pageNum(page.getPageNum()).build();
     }
 }

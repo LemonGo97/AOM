@@ -7,7 +7,5 @@ import cn.lemongo97.aom.common.ResultCode;
  */
 public class TokenExpiredException extends AomBaseException{
 
-    public TokenExpiredException() {
-        super(ResultCode.USER_TOKEN_EXPIRED);
-    }
+
 }

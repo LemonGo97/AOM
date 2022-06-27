@@ -18,12 +18,6 @@ import java.util.Arrays;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ExpiredJwtException.class)
-    public Result handleExpiredJwtException(ExpiredJwtException e){
-        log.error("token 过期了", e);
-        return Result.failure(ResultCode.USER_TOKEN_EXPIRED, e.getStackTrace());
-    }
-
     @ExceptionHandler(DataAccessException.class)
     public Result handleDataAccessException(DataAccessException e){
         log.error("数据库服务异常", e);

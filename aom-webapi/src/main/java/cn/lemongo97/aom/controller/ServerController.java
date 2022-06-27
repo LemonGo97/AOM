@@ -1,13 +1,13 @@
 package cn.lemongo97.aom.controller;
 
-import cn.lemongo97.aom.common.PageInfo;
-import cn.lemongo97.aom.common.SystemType;
 import cn.lemongo97.aom.config.ResponseResult;
+import cn.lemongo97.aom.model.application.ApplicationVersionPO;
 import cn.lemongo97.aom.model.server.ServerDTO;
 import cn.lemongo97.aom.model.server.ServerPO;
 import cn.lemongo97.aom.service.ServerService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -25,7 +25,7 @@ public class ServerController {
     ServerService serverService;
 
     @GetMapping("/servers")
-    public Page<ServerPO> listServers(ServerDTO server, PageInfo pageInfo){
+    public IPage<ServerPO> listServers(ServerDTO server, Page<ServerPO> pageInfo){
         return serverService.listServers(server, pageInfo);
     }
 

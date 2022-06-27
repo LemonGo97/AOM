@@ -65,6 +65,7 @@ spring:
   mvc:
     servlet:
       load-on-startup: 1
+      path: /
     converters:
       preferred-json-mapper: gson
 server:
@@ -79,3 +80,4 @@ mybatis-plus:
     default-enum-type-handler: com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
   global-config:
     banner: false
+  mapper-locations: classpath*:mybatis/mapper/*.xml
