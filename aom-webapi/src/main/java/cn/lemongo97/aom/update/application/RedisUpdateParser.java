@@ -1,5 +1,6 @@
 package cn.lemongo97.aom.update.application;
 
+import cn.hutool.core.util.ReUtil;
 import cn.lemongo97.aom.common.Application;
 import cn.lemongo97.aom.common.Platform;
 import cn.lemongo97.aom.common.SystemType;
@@ -46,6 +47,7 @@ public class RedisUpdateParser implements IApplicationUpdate {
                     application.setUpdateTime(DATE_FORMAT.parse(uploadTime));
                 } catch (ParseException ignore) {
                 }
+                application.setVersion(ReUtil.get("redis-(.*)\\.tar\\.gz", fileName, 1));
                 application.setPackageName(fileName);
                 application.setPlatform(Platform.SOURCE);
                 application.setSystemType(SystemType.LINUX);
